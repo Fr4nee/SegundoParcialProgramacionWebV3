@@ -72,7 +72,6 @@ export class ProductosComponent implements OnInit {
 				this.DevolverProducto(id!)
 			break;
 		}
-
 	}
 
 	ListarProductos() {
@@ -103,7 +102,24 @@ export class ProductosComponent implements OnInit {
 	}
 
 	AgregarProducto() {
-		
+		this.prod.productosCargarProductoPost$Json$Response({
+			nombre: this.add.controls['nombre'].value,
+			descripcion: this.add.controls['descripcion'].value,
+			precio: this.add.controls['precio'].value,
+			stock: this.add.controls['stock'].value,
+			categoria: this.add.controls['categoria'].value,
+			imagen: this.add.controls['imagen'].value,
+		}).subscribe((res) => {
+			if (res.status === 200) {
+				this.snackBar.open('Producto agregado correctamente', 'Cerrar', {
+					duration: 3000
+				});
+			} else {
+				this.snackBar.open('Error al agregar el producto', 'Cerrar', {
+					duration: 3000
+				});
+			}
+		})
 	}
 
 	EditarProducto() {
