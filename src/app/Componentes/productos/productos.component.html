@@ -1,0 +1,103 @@
+<div class="container-fluid">
+	<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+		<ng-container matColumnDef="id">
+			<th mat-header-cell *matHeaderCellDef> ID </th>
+			<td mat-cell *matCellDef="let element"> {{element.id}} </td>
+		</ng-container>
+		<ng-container matColumnDef="nombre">
+			<th mat-header-cell *matHeaderCellDef> Nombre </th>
+			<td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+		</ng-container>
+		<ng-container matColumnDef="precio">
+			<th mat-header-cell *matHeaderCellDef> Precio </th>
+			<td mat-cell *matCellDef="let element"> $ {{element.precio}} </td>
+		</ng-container>
+		<ng-container matColumnDef="imagen">
+			<th mat-header-cell *matHeaderCellDef> Imagen </th>
+			<td mat-cell *matCellDef="let element"><img [src]="element.imagen"></td>
+		</ng-container>
+		<ng-container matColumnDef="categoria">
+			<th mat-header-cell *matHeaderCellDef> Categoria </th>
+			<td mat-cell *matCellDef="let element"> {{element.categoria}} </td>
+		</ng-container>	
+		<ng-container matColumnDef="stock">
+			<th mat-header-cell *matHeaderCellDef> Stock </th>
+			<td mat-cell *matCellDef="let element"> {{element.stock}} </td>
+		</ng-container>
+		<ng-container matColumnDef="descripcion">
+			<th mat-header-cell *matHeaderCellDef> Descripcion </th>
+			<td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+		</ng-container>
+		<ng-container matColumnDef="botones">
+			<th mat-header-cell *matHeaderCellDef></th>
+			<td mat-cell *matCellDef="let element"> 
+				<button mat-icon-button (click)="AbroForm('editar',element.id)">
+					<mat-icon>edit</mat-icon>
+				</button>
+				<button mat-icon-button (click)="EliminarProducto(element.id)" >
+					<mat-icon>delete</mat-icon>
+				</button>
+			</td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	</table>
+	<button mat-raised-button color="primary" class="mt-5" (click)="AbroForm('nuevo')">Agregar Producto</button>
+</div>
+
+<div [formGroup]="add" [hidden]="abierto">
+	<div class="row">
+		<div class="col-6">
+			<div class="row">
+				<div class="col-4">
+					<mat-form-field appearance="outline">
+						<mat-label>Nombre</mat-label>
+						<input matInput type="text" class="form-control" formControlName="nombre" placeholder="Ingrese el nombre">
+					</mat-form-field>
+				</div>
+				<div class="col-4">
+					<mat-form-field appearance="outline">
+						<mat-label>Precio</mat-label>
+						<input matInput type="number" class="form-control" formControlName="precio" placeholder="Ingrese el precio">
+					</mat-form-field>
+				</div>
+				<div class="col-4">
+					<mat-form-field appearance="outline">
+						<mat-label>Stock</mat-label>
+						<input matInput type="number" class="form-control" formControlName="stock" placeholder="Ingrese el stock">
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-4">
+					<mat-form-field appearance="outline">
+						<mat-label>Descripcion</mat-label>
+						<input matInput type="text" class="form-control" formControlName="descripcion" placeholder="Ingrese la descripcion">
+					</mat-form-field>
+				</div>
+				<div class="col-4">
+					<mat-form-field appearance="outline">
+						<mat-label>Categoria</mat-label>
+						<mat-select formControlName="categoria">
+							<mat-option *ngFor="let categoria of categorias" [value]="categoria.nombre">
+								{{categoria.nombre}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-4">
+					<mat-form-field appearance="outline">
+						<mat-label>Imagen</mat-label>
+						<input matInput type="text" class="form-control" formControlName="imagen" placeholder="Ingrese la imagen">
+					</mat-form-field>
+				</div>
+				<button *ngIf="accion == 'nuevo'" mat-raised-button color="primary" (click)="AgregarProducto()">
+					<span>Aceptar</span>
+				</button>
+				<button *ngIf="accion == 'editar'" mat-raised-button color="primary" (click)="EditarProducto()">
+					<span>Aceptar</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
